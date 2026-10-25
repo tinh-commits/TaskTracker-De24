@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101a32">
+  <title>TaskFlow | Quản lý công việc</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <main id="loginPage" class="login-layout" hidden>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="brand"><span class="brand-mark">✳</span> TASKFLOW <span class="version">/ 24</span></div>
+        <h1>Công việc rõ ràng.<br><em>Tiến độ vững vàng.</em></h1>
+        <p>Quản lý nhiệm vụ, theo dõi deadline, phối hợp nhóm — trong một không gian tập trung.</p>
+        <div class="hero-stats"><div><strong>04</strong><small>Trạng thái</small></div><div><strong>03</strong><small>Ưu tiên</small></div><div><strong>01</strong><small>Nơi quản lý</small></div></div>
+      </div>
+      <div class="hero-footer">TASK TRACKER · ĐỒ ÁN TRIỂN KHAI & QUẢN TRỊ HỆ THỐNG</div>
+    </section>
+    <section class="login-panel">
+      <div class="login-form-wrap">
+        <div class="eyebrow">CHÀO MỪNG TRỞ LẠI</div>
+        <h2>Đăng nhập</h2>
+        <p class="muted">Truy cập bảng điều khiển công việc của bạn.</p>
+        <form id="loginForm">
+          <label>Tên đăng nhập<input name="username" required autocomplete="username" placeholder="Ví dụ: admin" maxlength="40"></label>
+          <label>Mật khẩu<input name="password" type="password" required autocomplete="current-password" placeholder="Nhập mật khẩu"></label>
+          <div id="loginError" class="form-error" role="alert"></div>
+          <button class="button primary full" type="submit">Đăng nhập <span>↗</span></button>
+        </form>
+        <p class="login-note">Tài khoản demo được tạo tự động khi khởi động. Mật khẩu lấy trong file <code>.env</code> được sinh trên máy của bạn.</p>
+      </div>
+    </section>
+  </main>
+  <div id="dashboard" class="shell" hidden>
+    <aside class="sidebar">
+      <div class="brand dark"><span class="brand-mark">✳</span> TASKFLOW</div>
+      <p class="sidebar-heading">WORKSPACE</p>
+      <nav class="menu"><a class="active" href="#">▦ <span>Tổng quan công việc</span></a><a href="#board">☷ <span>Bảng Kanban</span></a></nav>
+      <div class="sidebar-bottom"><div class="account-circle" id="avatar">A</div><div><strong id="sidebarName">Thành viên</strong><small id="sidebarRole">Thành viên</small></div></div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><div class="crumb">Không gian làm việc <span>/</span> <strong>Danh sách công việc</strong></div><div class="top-actions"><span class="today" id="todayLabel"></span><button type="button" class="small-ghost" id="logoutBtn">Đăng xuất</button></div></header>
+      <main class="content">
+        <div class="heading-row"><div><div class="eyebrow">BẢNG ĐIỀU KHIỂN</div><h1>Quản lý công việc <span class="wave">✦</span></h1><p class="muted">Mọi nhiệm vụ, thời hạn và tiến độ đều ở đây.</p></div><button class="button primary" id="addBtn">+ Tạo công việc mới</button></div>
+        <section class="stats-grid" aria-label="Thống kê công việc">
+          <article class="stat"><div><span>TỔNG CÔNG VIỆC</span><b class="stat-icon purple">▦</b></div><strong id="statAll">0</strong><small>Tất cả nhiệm vụ</small></article>
+          <article class="stat"><div><span>ĐANG THỰC HIỆN</span><b class="stat-icon blue">↗</b></div><strong id="statProgress">0</strong><small>Đang được xử lý</small></article>
+          <article class="stat"><div><span>HOÀN THÀNH</span><b class="stat-icon green">✓</b></div><strong id="statDone">0</strong><small>Đã hoàn tất</small></article>
+          <article class="stat"><div><span>QUÁ HẠN</span><b class="stat-icon orange">!</b></div><strong id="statOverdue">0</strong><small>Cần chú ý</small></article>
+        </section>
+        <section class="workspace" id="board">
+          <div class="workspace-head"><div><h2>Danh sách nhiệm vụ</h2><p class="muted">Sắp xếp công việc hiệu quả mỗi ngày</p></div><span id="taskCount" class="count">0 công việc</span></div>
+          <div class="filters"><label class="search-box"><span>⌕</span><input id="searchInput" placeholder="Tìm kiếm công việc..." aria-label="Tìm kiếm công việc"></label><select id="statusFilter" aria-label="Lọc trạng thái"><option value="all">Tất cả trạng thái</option><option value="todo">Cần làm</option><option value="in_progress">Đang thực hiện</option><option value="blocked">Tạm dừng</option><option value="done">Hoàn thành</option></select><button class="small-ghost" id="refreshBtn">↻ Làm mới</button></div>
+          <div id="alert" class="notice" role="status" hidden></div>
+          <div id="taskList" class="task-list"></div>
+          <div id="emptyState" class="empty" hidden><div>☷</div><h3>Chưa có công việc phù hợp</h3><p>Hãy tạo công việc hoặc thay đổi điều kiện tìm kiếm.</p></div>
+        </section>
+        <footer class="footer">TASKFLOW · TASK TRACKER <span>Đề tài 24 – Triển khai & Quản trị hệ thống phần mềm</span></footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="taskModal" class="modal"><form id="taskForm" method="dialog"><div class="modal-head"><div><div class="eyebrow">THÔNG TIN NHIỆM VỤ</div><h2 id="modalTitle">Tạo công việc mới</h2></div><button type="button" class="x-button" id="closeModal" aria-label="Đóng">✕</button></div><input id="taskId" type="hidden"><label>Tên công việc <span class="required">*</span><input id="taskTitle" required maxlength="160" placeholder="Ví dụ: Thiết kế cơ sở dữ liệu"></label><label>Mô tả<textarea id="taskDescription" rows="3" maxlength="1500" placeholder="Mô tả ngắn gọn nội dung công việc"></textarea></label><div class="form-row"><label>Trạng thái<select id="taskStatus"><option value="todo">Cần làm</option><option value="in_progress">Đang thực hiện</option><option value="blocked">Tạm dừng</option><option value="done">Hoàn thành</option></select></label><label>Mức ưu tiên<select id="taskPriority"><option value="low">Thấp</option><option value="medium" selected>Trung bình</option><option value="high">Cao</option></select></label></div><div class="form-row"><label>Hạn hoàn thành<input type="date" id="taskDue"></label><label>Người thực hiện<select id="taskAssignee"></select></label></div><p id="modalError" class="form-error" role="alert"></p><div class="modal-actions"><button type="button" class="button secondary" id="cancelModal">Hủy</button><button type="submit" class="button primary" id="saveTaskBtn">Lưu công việc</button></div></form></dialog>
+</body>
+</html>

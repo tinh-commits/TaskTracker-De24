@@ -1,0 +1,10 @@
+.env
+node_modules/
+*.log
+.DS_Store
+__pycache__/
+*.sqlite
+coverage/
+.vscode/
+.env.*
+!.env.example
