@@ -1,0 +1,10 @@
+apiVersion: 1
+providers:
+  - name: TaskTracker Dashboards
+    orgId: 1
+    folder: TaskTracker
+    type: file
+    disableDeletion: true
+    updateIntervalSeconds: 20
+    options:
+      path: /var/lib/grafana/dashboards
