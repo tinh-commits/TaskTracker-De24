@@ -1,0 +1,36 @@
+DE 24 - HE THONG QUAN LY CONG VIEC / TASK TRACKER
+================================================
+
+1. Giai nen ZIP vao thu muc bat ky tren Windows 11.
+2. Mo Docker Desktop, bat Linux containers / WSL 2.
+3. Mo PowerShell trong thu muc du an va chay:
+
+   python scripts/init-env.py
+   docker compose config --quiet
+   docker compose up -d --build
+   docker compose ps
+
+4. Mo:
+   Website:     http://localhost:8080
+   pgAdmin:     http://localhost:5050
+   Grafana:     http://localhost:3001
+   Prometheus:  http://localhost:9090/targets
+
+5. Tai khoan demo: admin va nhanvien. Mat khau do script sinh ra,
+   ghi tai man hinh terminal va luu trong file .env (khong day len GitHub).
+
+6. Kiem thu:
+   python scripts/smoke-test.py
+   docker compose logs --tail=60 app nginx postgres prometheus grafana loki promtail
+
+7. Trong docs/ co file Bao_cao_De24_TaskTracker.docx, can:
+   - Dien ho ten, MSSV, lop, giang vien, link GitHub.
+   - Tu chay Docker tren may, chup anh thuc te H01-H12.
+   - Chen anh thay cho o minh chung trong Word truoc khi nop.
+   - Thuc hien 3+ git commits va git push theo README.
+
+LUU Y: Bo ma nguon da duoc kiem tra cu phap va unit test; chua duoc
+xac minh chay Docker do moi truong tao bai khong co Docker engine.
+Khong tu nhan da demo thanh cong neu chua chay va chup anh.
+
+Chi tiet xem README.md va docs/KE_HOACH_DEMO.md.
